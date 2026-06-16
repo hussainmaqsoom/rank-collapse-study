@@ -122,8 +122,8 @@ if __name__ == "__main__":
         "The mitochondria is the powerhouse of the cell.",
     ]
     
-    # Test GPT-2 and DistilGPT2
-    models_to_test = ["gpt2", "distilgpt2"]
+    # Test GPT-2 and DistilGPT2 and facebook/opt-125m
+    models_to_test = ["gpt2", "distilgpt2", "facebook/opt-125m"]
     all_results = {}
     
     for model_name in models_to_test:

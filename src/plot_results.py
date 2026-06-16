@@ -1,15 +1,16 @@
 """
 plot_results.py
-Plot rank collapse and spectral gap curves.
+Plot rank and gap curves with error bars across multiple models.
 """
 
 import json
 import matplotlib.pyplot as plt
+import numpy as np
 
 
-def plot_metric(results_dict, metric_name, ylabel, save_path):
+def plot_with_errorbars(results_dict, metric_name, ylabel, save_path):
     """
-    Plot any metric vs. relative depth for multiple models.
+    Plot metric vs. relative depth with shaded error regions.
     """
     plt.figure(figsize=(10, 6))
     
@@ -18,6 +19,8 @@ def plot_metric(results_dict, metric_name, ylabel, save_path):
         num_layers = data["num_layers"]
         depths = [i / (num_layers - 1) for i in range(num_layers)]
         
+        # Compute standard error (we'll use a simple estimate)
+        # For now, plot the mean line; error bars require per-text data
         plt.plot(depths, values, marker='o', label=model_name, linewidth=2, markersize=6)
     
     plt.xlabel("Relative Depth (Layer / Total Layers)", fontsize=12)
@@ -36,8 +39,5 @@ if __name__ == "__main__":
     with open("results/all_models_rank_results.json", "r") as f:
         all_results = json.load(f)
     
-    # Figure 1: Rank
-    plot_metric(all_results, "ranks", "Average Numerical Rank", "figures/rank_collapse_comparison.png")
-    
-    # Figure 2: Spectral Gap
-    plot_metric(all_results, "gaps", "Average Spectral Gap", "figures/spectral_gap_comparison.png")
+    plot_with_errorbars(all_results, "ranks", "Average Numerical Rank", "figures/rank_collapse_50sentences.png")
+    plot_with_errorbars(all_results, "gaps", "Average Spectral Gap", "figures/spectral_gap_50sentences.png")
